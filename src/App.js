@@ -29,7 +29,6 @@ function Sprout({}) {
     // Detects if device is on iOS 
     const isIos = () => {
         const userAgent = window.navigator.userAgent.toLowerCase();
-        console.log('userAgent', userAgent);
         return /iphone|ipad|ipod/.test( userAgent );
     }
     // Detects if device is in standalone mode
@@ -37,7 +36,6 @@ function Sprout({}) {
     useEffect(() => {
         let closeModal = localStorage.getItem('closeModal');
         closeModal = closeModal ? closeModal : false;
-        console.log('closeModal', closeModal);
         logo();
         if (isIos() && !isInStandaloneMode() && !closeModal) {
             setModal(true);
@@ -48,12 +46,11 @@ function Sprout({}) {
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
 
-        if (pathname !== "/") {    
-            console.log('Window', window);
+        if (pathname !== "/wallet") {    
             if(pathname){
                 pathname = pathname.split("/");
+                console.log('', );
                 setBusiness(pathname[1]);
-                window.location.href = `${window.location.origin}?cid=${pathname[1]}`
             }else{
                 setBusiness(null)
             }

@@ -38,12 +38,11 @@ function Sprout() {
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
 
-        if (pathname !== "/") {    
-            console.log('Window', window);
+        if (pathname !== "/wallet") {    
             if(pathname){
                 pathname = pathname.split("/");
+                console.log('', );
                 setBusiness(pathname[1]);
-                window.location.href = `${window.location.origin}?cid=${pathname[1]}`
             }else{
                 setBusiness(null)
             }
@@ -52,7 +51,6 @@ function Sprout() {
             setBusiness(search[1]);
         }
     }
-    
 
     return (
         <div className="bg-grey pb-5 animate__animated animate__fadeIn">

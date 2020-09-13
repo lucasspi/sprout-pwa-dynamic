@@ -43,7 +43,7 @@
                       "purpose": "any maskable"
                   }
               ],
-              "start_url": "?cid=sprout",
+              "start_url": "/wallet?cid=sprout",
               "display": "standalone",
               "theme_color": "#000000",
               "background_color": "#ffffff"
@@ -59,7 +59,7 @@
                         "purpose": "any maskable"
                     }
                 ],
-                "start_url": "?cid=dccolorweb",
+                "start_url": "/wallet?cid=dccolorweb",
                 "display": "standalone",
                 "theme_color": "#000000",
                 "background_color": "#ffffff"
@@ -75,7 +75,7 @@
                         "purpose": "any maskable"
                     }
                 ],
-                "start_url": "?cid=spirandeli",
+                "start_url": "/wallet?cid=spirandeli",
                 "display": "standalone",
                 "theme_color": "#000000",
                 "background_color": "#ffffff"
@@ -84,11 +84,11 @@
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
 
-        if (pathname !== "/") {    
+        if (pathname !== "/wallet") {    
             console.log('Window', window);
             if(pathname){
                 pathname = pathname.split("/");
-                window.location.href = `${window.location.origin}?cid=${pathname[1]}`
+                window.location.href = `${window.location.origin}/wallet?cid=${pathname[1]}`
             }
         }else if(search){
           if(search){
