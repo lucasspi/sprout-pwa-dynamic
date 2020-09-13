@@ -33,8 +33,11 @@ function Sprout({}) {
     // Detects if device is in standalone mode
     const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
     useEffect(() => {
+        let closeModal = localStorage.getItem('closeModal');
+        closeModal = closeModal ? closeModal : false;
+        console.log('closeModal', closeModal);
         logo();
-        if (isIos() && !isInStandaloneMode()) {
+        if (isIos() && !isInStandaloneMode() && !closeModal) {
             setModal(true);
         }
     }, [])
@@ -59,6 +62,11 @@ function Sprout({}) {
         }
     }
 
+    function closeModal(){
+        setModal(false);
+        localStorage.setItem('closeModal', true);
+    }
+
     // Checks if should display install popup notification:
     if (ready) {
         return (
@@ -72,7 +80,7 @@ function Sprout({}) {
                     <Row>
                         <Colxx xxs="12" className="mx-2 d-flex justify-content-between align-items-center">
                             <p style={{margin: 0, fontWeight: "600", textAlign: "left", fontSize: 14, }} className="lead weight-700 ">Sprout Application</p>
-                            <div onClick={() => setModal(false)} className="pr-4 pl-5 pb-2" style={{fontSize: 18, margin: 0}}>x</div>
+                            <div onClick={closeModal} className="pr-4 pl-5 pb-2" style={{fontSize: 18, margin: 0}}>x</div>
                         </Colxx>
                     </Row>
                     <Row>
