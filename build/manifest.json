@@ -1,15 +1,15 @@
 {
-    "short_name": "Sprout App",
-    "name": "Sprout App PWA",
+    "short_name": "Loyalty Wallet",
+    "name": "Loyalty Wallet",
     "icons": [
         {
-            "src": "/assets/logo.png",
+            "src": "/assets/wallet.png",
             "type": "image/png",
             "sizes": "1024x1024",
             "purpose": "any maskable"
         }
     ],
-    "start_url": ".",
+    "start_url": "?cid=sprout",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#ffffff"

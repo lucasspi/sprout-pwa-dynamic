@@ -6,15 +6,15 @@
     <meta name="theme-color" content="#000000" />
     <link rel="stylesheet" href="/fonts/iconsmind-s/css/iconsminds.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
-    <meta name="description" content="Modern PWA Weather React Application" />
-    <link id="mylogo1" rel="apple-touch-icon" href="./assets/logo.png" />
+    <meta name="description" content="Loyalty Wallet Application" />
+    <link id="mylogo1" rel="apple-touch-icon" href="./assets/wallet.png" />
     <link id="mylogo2" rel="apple-touch-icon" href="touch-icon-iphone.png">
-    <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./assets/logo.png">
-    <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
-    <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./assets/logo.png">
+    <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./assets/wallet.png">
+    <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./assets/wallet.png">
+    <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./assets/wallet.png">
     
-    <link rel="icon" type="image/png" id="mylogo" href="" />
-    <link rel="manifest" href="./dccolorweb-manifest.json"/>
+    <link rel="icon" type="image/png" id="mylogo" href="./assets/wallet.png" />
+    <link rel="manifest" id="manifestjson" href="./manifest.json"/>
     <title id="title"></title>
   </head>
   <body>
@@ -30,19 +30,83 @@
         }
 
 
-        let search = window.location.search;
-        if(search){
-          search = search.split("=");
-          console.log('INDEX ', search[1]);
-          document.getElementById("mylogo").href = `./assets/${search[1]}.png`; 
-          document.getElementById("mylogo1").href = `./assets/${search[1]}.png`; 
-          document.getElementById("mylogo2").href = `./assets/${search[1]}.png`; 
-          document.getElementById("mylogo3").href = `./assets/${search[1]}.png`; 
-          document.getElementById("mylogo4").href = `./assets/${search[1]}.png`; 
-          document.getElementById("mylogo5").href = `./assets/${search[1]}.png`; 
-          
-          // document.getElementById("manifestjson").href = "./dccolorweb-manifest.json"; 
-          document.getElementById("title").innerHTML = `${search[1]}`; 
+        let manifest = {
+
+          sprout:{
+              "short_name": "Sprout App",
+              "name": "Sprout App",
+              "icons": [
+                  {
+                      "src": "/assets/logo.png",
+                      "type": "image/png",
+                      "sizes": "1024x1024",
+                      "purpose": "any maskable"
+                  }
+              ],
+              "start_url": "?cid=sprout",
+              "display": "standalone",
+              "theme_color": "#000000",
+              "background_color": "#ffffff"
+          },
+          dccolorweb: {
+                "short_name": "DCCOLOR",
+                "name": "DCCOLOR App",
+                "icons": [
+                    {
+                        "src": "/assets/dccolorweb.png",
+                        "type": "image/png",
+                        "sizes": "1024x1024",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "?cid=dccolorweb",
+                "display": "standalone",
+                "theme_color": "#000000",
+                "background_color": "#ffffff"
+            },
+          spirandeli: {
+                "short_name": "Spirandeli",
+                "name": "Spirandeli App",
+                "icons": [
+                    {
+                        "src": "/assets/spirandeli.png",
+                        "type": "image/png",
+                        "sizes": "1024x1024",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "?cid=spirandeli",
+                "display": "standalone",
+                "theme_color": "#000000",
+                "background_color": "#ffffff"
+            }
+        }
+        let pathname = window.location && window.location.pathname;
+        let search = window.location && window.location.search;
+
+        if (pathname !== "/") {    
+            console.log('Window', window);
+            if(pathname){
+                pathname = pathname.split("/");
+                window.location.href = `${window.location.origin}?cid=${pathname[1]}`
+            }
+        }else if(search){
+          if(search){
+            search = search.split("=");
+            console.log('INDEX ', search[1]);
+            console.log('manifest[search[1]]', manifest[search[1]]);
+            document.getElementById("mylogo").href = `./assets/${search[1]}.png`; 
+            document.getElementById("mylogo1").href = `./assets/${search[1]}.png`; 
+            document.getElementById("mylogo2").href = `./assets/${search[1]}.png`; 
+            document.getElementById("mylogo3").href = `./assets/${search[1]}.png`; 
+            document.getElementById("mylogo4").href = `./assets/${search[1]}.png`; 
+            document.getElementById("mylogo5").href = `./assets/${search[1]}.png`; 
+            
+            document.getElementById("title").innerHTML = `${manifest[search[1]].name}`; 
+            setTimeout(function(){ 
+              document.getElementById("manifestjson").href = manifest[search[1]]; 
+             }, 5000);
+          }
         }
     </script>
   </body>

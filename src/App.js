@@ -5,8 +5,19 @@ import HomeArea from "./HomeArea";
 import RewardsArea from "./RewardsArea";
 import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
+import Lottie from 'react-lottie';
+import animationData from './css/loading.json';
 
 function Sprout({}) {
+
+    const defaultOptions = {
+      loop: true,
+      autoplay: true,
+      animationData: animationData,
+      rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice"
+      }
+    };
     
     const [page, setPage] = useState("home");
     const [modal, setModal] = useState(false);
@@ -50,8 +61,6 @@ function Sprout({}) {
 
     // Checks if should display install popup notification:
     if (ready) {
-        
-    
         return (
             <div>
                 {page === "home" && <HomeArea className=""/>}
@@ -100,8 +109,14 @@ function Sprout({}) {
         );
     }else{
         return(
-            <div>
-                <Row className="justify-content-between align-items-center px-2 py-2">
+            <div className=" h-100 w-100 d-flex align-items-center ">
+                <Row className="align-items-center mx-auto my-auto w-100">
+                    <Lottie 
+                        options={defaultOptions}
+                        height={100}
+                        width={100}
+                    />
+                    <p className="text-center w-100 pt-4" style={{color: "#6b6a6a"}}>Specify the desired app</p>
                 </Row>
             </div>
         )
