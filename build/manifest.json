@@ -9,7 +9,7 @@
             "purpose": "any maskable"
         }
     ],
-    "start_url": "?cid=sprout",
+    "start_url": "/wallet?cid=sprout",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#ffffff"
