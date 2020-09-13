@@ -15,7 +15,7 @@ function RewardsArea() {
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
 
-        if (pathname !== "/wallet") {    
+        if (pathname !== "/wallet/") {    
             if(pathname){
                 pathname = pathname.split("/");
                 console.log('', );
