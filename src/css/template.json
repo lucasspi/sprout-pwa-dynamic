@@ -1,0 +1,23 @@
+{
+    "dccolorweb": {
+        "color": "#f7ad00",
+        "title": "DCColor Web App",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu",
+        "logo": "https://s3.amazonaws.com/ana.xpertygroup.com/imgs/dccolorweb.png",
+        "logoExtended": "https://s3.amazonaws.com/ana.xpertygroup.com/imgs/dccolorweb-extended.png"
+    },
+    "sprout": {
+        "color": "#03bb85",
+        "title": "Sprout Web App",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu",
+        "logo": "/assets/sprout.png",
+        "logoExtended": "/assets/logo-sprout-v2.png"
+    },
+    "spirandeli": {
+        "color": "#03a9f4",
+        "title": "Spirandeli Web App",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqu",
+        "logo": "/assets/spirandeli.png",
+        "logoExtended": "/assets/spirandeli.png"
+    }
+}

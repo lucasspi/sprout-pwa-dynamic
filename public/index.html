@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="/fonts/iconsmind-s/css/iconsminds.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
+    <meta name="description" content="Modern PWA Weather React Application" />
+    <link id="mylogo1" rel="apple-touch-icon" href="./assets/logo.png" />
+    <link id="mylogo2" rel="apple-touch-icon" href="touch-icon-iphone.png">
+    <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./assets/logo.png">
+    <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./assets/logo.png">
+    <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./assets/logo.png">
+    
+    <link rel="icon" type="image/png" id="mylogo" href="" />
+    <link rel="manifest" href="./dccolorweb-manifest.json"/>
+    <title id="title"></title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script>
+        if('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./serviceworker.js')
+                    .then((reg) => console.log('Success: ', reg.scope))
+                    .catch((err) => console.log('Failure: ', err));
+            })
+        }
+
+
+        let search = window.location.search;
+        if(search){
+          search = search.split("=");
+          console.log('INDEX ', search[1]);
+          document.getElementById("mylogo").href = `./assets/${search[1]}.png`; 
+          document.getElementById("mylogo1").href = `./assets/${search[1]}.png`; 
+          document.getElementById("mylogo2").href = `./assets/${search[1]}.png`; 
+          document.getElementById("mylogo3").href = `./assets/${search[1]}.png`; 
+          document.getElementById("mylogo4").href = `./assets/${search[1]}.png`; 
+          document.getElementById("mylogo5").href = `./assets/${search[1]}.png`; 
+          
+          // document.getElementById("manifestjson").href = "./dccolorweb-manifest.json"; 
+          document.getElementById("title").innerHTML = `${search[1]}`; 
+        }
+    </script>
+  </body>
+</html>
