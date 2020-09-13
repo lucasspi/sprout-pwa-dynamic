@@ -24,7 +24,7 @@ function HomeArea() {
                     
                     <div className="py-4 text-center mx-auto">
                         <img className="d-block mx-auto mb-4 animate__animated animate__pulse" src={business ?  Template[business].logoExtended : ""} alt="" height="72"/>
-                        <h2 className="display-4 color-df pt-3">Welcome</h2>
+                        <h2 className="display-4 color-df pt-3">Welcomes</h2>
                         <p className="lead color-df pb-3" style={{fontWeight: "200"}}>Here is the home area. Let's start!</p>
                         <div className="row mx-auto justify-content-center">
                             <div style={{height: 1, width: "100%", backgroundColor: "#dadada", marginBottom: 25 }}></div>
