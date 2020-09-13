@@ -9,14 +9,24 @@ function HomeArea() {
     }, [])
 
     function logo() {
-        let search = window.location.pathname;
-        if(search){
-            search = search.split("/");
+        let pathname = window.location && window.location.pathname;
+        let search = window.location && window.location.search;
+
+        if (pathname !== "/") {    
+            console.log('Window', window);
+            if(pathname){
+                pathname = pathname.split("/");
+                setBusiness(pathname[1]);
+                window.location.href = `${window.location.origin}?cid=${pathname[1]}`
+            }else{
+                setBusiness(null)
+            }
+        }else if(search){
+            search = search.split("=");
             setBusiness(search[1]);
-        }else{
-            setBusiness(null)
         }
     }
+    
     return (
         <div className="bg-grey pb-5 mb-5 animate__animated animate__fadeIn">
             <div className="bg-white pb-5 mb-5 ">
@@ -24,7 +34,7 @@ function HomeArea() {
                     
                     <div className="py-4 text-center mx-auto">
                         <img className="d-block mx-auto mb-4 animate__animated animate__pulse" src={business ?  Template[business].logoExtended : ""} alt="" height="72"/>
-                        <h2 className="display-4 color-df pt-3">Welcomes</h2>
+                        <h2 className="display-4 color-df pt-3">Welcome</h2>
                         <p className="lead color-df pb-3" style={{fontWeight: "200"}}>Here is the home area. Let's start!</p>
                         <div className="row mx-auto justify-content-center">
                             <div style={{height: 1, width: "100%", backgroundColor: "#dadada", marginBottom: 25 }}></div>

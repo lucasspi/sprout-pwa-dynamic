@@ -12,12 +12,21 @@ function RewardsArea() {
     }, [])
 
     function logo() {
-        let search = window.location.pathname;
-        if(search){
-            search = search.split("/");
+        let pathname = window.location && window.location.pathname;
+        let search = window.location && window.location.search;
+
+        if (pathname !== "/") {    
+            console.log('Window', window);
+            if(pathname){
+                pathname = pathname.split("/");
+                setBusiness(pathname[1]);
+                window.location.href = `${window.location.origin}?cid=${pathname[1]}`
+            }else{
+                setBusiness(null)
+            }
+        }else if(search){
+            search = search.split("=");
             setBusiness(search[1]);
-        }else{
-            setBusiness(null)
         }
     }
     
