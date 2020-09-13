@@ -1,10 +1,17 @@
 import React, {useState, useEffect} from "react";
 import Template from './css/template.json'
+import {  useDispatch } from 'react-redux';
+import { getApi } from './environment/environment'
+const server = getApi('url');
 
 function HomeArea() {
     const [business, setBusiness] = useState("")
+    const [token, setToken] = useState("")
+    // REDUX
+    const dispatch = useDispatch();
     
     useEffect(()=>{
+        userInfo()
         logo();
     }, [])
 
@@ -26,7 +33,28 @@ function HomeArea() {
             setBusiness(search[1]);
         }
     }
-    
+
+    async function userInfo(){
+        //Requisição de 
+        let response = await fetch(server, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({
+                "cid": "miaaaa0001", 
+                "phn": "5083309917",
+                "action": "get_token"
+            })
+        });
+        response = await response.json()
+        if (response.status === "success") {
+            dispatch({type: "STORAGE_TOKEN", token: response.token})
+        }
+        console.log('response', response)
+    }
+
     return (
         <div className="bg-grey pb-5 mb-5 animate__animated animate__fadeIn">
             <div className="bg-white pb-5 mb-5 ">
@@ -34,7 +62,7 @@ function HomeArea() {
                     
                     <div className="py-4 text-center mx-auto">
                         <img className="d-block mx-auto mb-4 animate__animated animate__pulse" src={business ?  Template[business].logoExtended : ""} alt="" height="72"/>
-                        <h2 className="display-4 color-df pt-3">Welcome</h2>
+                        <h2 className="display-4 color-df pt-3">Welcome {token}</h2>
                         <p className="lead color-df pb-3" style={{fontWeight: "200"}}>Here is the home area. Let's start!</p>
                         <div className="row mx-auto justify-content-center">
                             <div style={{height: 1, width: "100%", backgroundColor: "#dadada", marginBottom: 25 }}></div>

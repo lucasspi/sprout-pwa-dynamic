@@ -7,6 +7,8 @@ import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
 import Lottie from 'react-lottie';
 import animationData from './css/loading.json';
+import { Provider } from 'react-redux';
+import { configureStore } from './redux/store';
 
 function Sprout({}) {
 
