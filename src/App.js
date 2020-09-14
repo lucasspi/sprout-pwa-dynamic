@@ -21,7 +21,7 @@ function Sprout({}) {
       }
     };
     
-    const [page, setPage] = useState("home");
+    const [page, setPage] = useState("profile");
     const [modal, setModal] = useState(false);
     const [business, setBusiness] = useState(null);
     const [ready, setReady] = useState(false);

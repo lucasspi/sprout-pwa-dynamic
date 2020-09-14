@@ -93,8 +93,7 @@
         }else if(search){
           if(search){
             search = search.split("=");
-            console.log('INDEX ', search[1]);
-            console.log('manifest[search[1]]', manifest[search[1]]);
+            console.log('App ', search[1]);
             document.getElementById("mylogo").href = `./assets/${search[1]}.png`; 
             document.getElementById("mylogo1").href = `./assets/${search[1]}.png`; 
             document.getElementById("mylogo2").href = `./assets/${search[1]}.png`; 
@@ -105,7 +104,6 @@
             document.getElementById("title").innerHTML = `${manifest[search[1]].name}`; 
             setTimeout(function(){ 
               document.getElementById("manifestjson").href = manifest[search[1]]; 
-              console.log('document.getElementById("manifestjson").href', document.getElementById("manifestjson").href);
              }, 5000);
           }
         }

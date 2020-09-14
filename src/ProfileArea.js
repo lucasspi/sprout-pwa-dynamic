@@ -5,8 +5,12 @@ import Template from './css/template.json'
 
 function Sprout() {
     
+    const [allInterests, setAllInterests] = useState([])
+    const [cid, setCid] = useState("miaaaa0001")
+    const [phone, setPhone] = useState("5083309917")
+    const [token, setToken] = useState("")
     const [business, setBusiness] = useState(null);
-    const [form] = useState({
+    const [form, setForm] = useState({
         phone: "",
         email: "",
         firstname: "",
@@ -15,23 +19,16 @@ function Sprout() {
         gender: "",
         zipcode: "",
     })
-    const [interests, setInterests] = useState({
-        "flower": false,
-        "concentrate": false,
-        "prerolls": false,
-        "edibles": false,
-        "topicals": false,
-        "accessories": false,
-        "newsandevents": false,
-        "vaporizers": false
-    })
 
     function handleField(field, value){
 
     }
 
     useEffect(()=>{
+        let token = localStorage.getItem('token');
         logo();
+        setToken(token)
+        userFields();
     }, [])
 
     function logo() {
@@ -50,6 +47,68 @@ function Sprout() {
             search = search.split("=");
             setBusiness(search[1]);
         }
+    }
+
+    function userFields() {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic Og==");
+        myHeaders.append("Content-Type", "text/plain");
+
+        var raw = `{\n    \"cid\": \"${cid}\", \n    \"phn\": \"${phone}\",\n    \"action\": \"customer_info\",\n    \"token\": \"${token}\",\n    \"permission\": \"interests,loyalty_points\"\n}`
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setForm({
+                    address: result.customer && result.customer.address,
+                    birthday: result.customer && result.customer.birthday,
+                    city: result.customer && result.customer.city,
+                    country: result.customer && result.customer.country,
+                    email: result.customer && result.customer.email,
+                    firstname: result.customer && result.customer.firstname,
+                    gender: result.customer && result.customer.gender == "f" ? "Female" : "Male",
+                    lastname: result.customer && result.customer.lastname,
+                    phone: result.customer && result.customer.phn,
+                    state: result.customer && result.customer.state,
+                    zipcode: result.customer && result.customer.zipcode
+
+                });
+                let { interests } = result.customer
+                setAllInterests(interests);
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    function handleInterests(item, permission) {
+        let inters = {
+            "interest_id": item.interest_id,
+            "interest_name": item.interest_name,
+            "phn": phone
+        }
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic Og==");
+        myHeaders.append("Content-Type", "text/plain");
+
+        var raw = `{\n \"cid\": \"${cid}\",\n \"token\": \"${token}\",\n \"action\": \"${permission}\",\n \"phn\": \"${phone}\",\n \"interest\": {\n    \"interest_id\": ${item.interest_id},\n    \"interest_name\": \"${item.interest_name}\",\n    \"phn\": \"${phone}\"\n }\n}`;
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+            .then(response => response.text())
+            .then(result => {userFields()})
+            .catch(error => console.log('error', error));
     }
 
     return (
@@ -102,7 +161,7 @@ function Sprout() {
                                     <span>Last name</span>
                                 </Label>
                             </Colxx>
-                            <Colxx xxs="12" md="6" className="mx-auto my-auto">                    
+                            <Colxx xxs="6" md="6" className="mx-auto my-auto">                    
                                 <Label className="form-group has-float-label mb-4">
                                     <input
                                         className="form-control" 
@@ -111,7 +170,7 @@ function Sprout() {
                                     <span>Bithday</span>
                                 </Label>
                             </Colxx>
-                            <Colxx xxs="12" md="6" className="mx-auto my-auto">                    
+                            <Colxx xxs="6" md="6" className="mx-auto my-auto">                    
                                 <Label className="form-group has-float-label mb-4">
                                     <input
                                         className="form-control" 
@@ -129,69 +188,70 @@ function Sprout() {
                                     <span>Zip/Postal Code</span>
                                 </Label>
                             </Colxx>
-                                <Button
-                                    style={{backgroundColor: business ? Template[business].color : "white", borderColor: business ? Template[business].color : "white"}}
-                                    className="btn-shadow"
-                                    size="lg"
-                                    onClick={() => null}
-                                >
-                                    <span>SAVE</span>
-                                </Button>
+                            <Colxx xxs="12" md="6" className="mx-auto my-auto">                    
+                                <Label className="form-group has-float-label mb-4">
+                                    <input
+                                        className="form-control" 
+                                        value={form.address} 
+                                        onChange={(event) => handleField("address" , event.target.value)} />
+                                    <span>Address</span>
+                                </Label>
+                            </Colxx>
+                            <Colxx xxs="12" md="6" className="mx-auto my-auto">                    
+                                <Label className="form-group has-float-label mb-4">
+                                    <input
+                                        className="form-control" 
+                                        value={form.city} 
+                                        onChange={(event) => handleField("city" , event.target.value)} />
+                                    <span>City</span>
+                                </Label>
+                            </Colxx>
+                            <Colxx xxs="4" md="6" className="mx-auto my-auto">                    
+                                <Label className="form-group has-float-label mb-4">
+                                    <input
+                                        className="form-control" 
+                                        value={form.state} 
+                                        onChange={(event) => handleField("state" , event.target.value)} />
+                                    <span>State</span>
+                                </Label>
+                            </Colxx>
+                            <Colxx xxs="8" md="6" className="mx-auto my-auto">                    
+                                <Label className="form-group has-float-label mb-4">
+                                    <input
+                                        className="form-control" 
+                                        value={form.country} 
+                                        onChange={(event) => handleField("country" , event.target.value)} />
+                                    <span>Country</span>
+                                </Label>
+                            </Colxx>
+                            
+                            <Button
+                                style={{backgroundColor: business ? Template[business].color : "white", borderColor: business ? Template[business].color : "white"}}
+                                className="btn-shadow"
+                                size="lg"
+                                onClick={() => null}
+                            >
+                                <span>SAVE</span>
+                            </Button>
                         </Row>
                         <div className="row mx-auto justify-content-center mt-5">
                             <div style={{height: 1, width: "100%", backgroundColor: "#dadada", marginBottom: 25 }}></div>
                         </div>
                         <p className="text-left color-df" style={{fontWeight: "600", fontSize: 16}}>Interests</p>
+                        {allInterests && allInterests.length ? 
                          <Row className="justify-content-between mb-2 mx-auto my-auto">
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, flower: !interests.flower}))}> 
-                                <div className={interests.flower ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.flower ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.flower ? "color-active mt-2" : "color-disabled mt-2"}`}>Flowers</p>
-                            </div>
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, concentrate: !interests.concentrate}))}> 
-                                <div className={interests.concentrate ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.concentrate ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.concentrate ? "color-active mt-2" : "mt-2 color-disabled"}`} >Concentrate</p>
-                            </div>
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, prerolls: !interests.prerolls}))}> 
-                                <div className={interests.prerolls ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.prerolls ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.prerolls ? "color-active mt-2" : "mt-2 color-disabled"}`} >Prerolls</p>
-                            </div>
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, edibles: !interests.edibles}))}> 
-                                <div className={interests.edibles ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.edibles ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.edibles ? "color-active mt-2" : "mt-2 color-disabled"}`} >Edibles</p>
-                            </div>
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, topicals: !interests.topicals}))}> 
-                                <div className={interests.topicals ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.topicals ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.topicals ? "color-active mt-2" : "mt-2 color-disabled"}`} >Topicals</p>
-                            </div>
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, accessories: !interests.accessories}))}> 
-                                <div className={interests.accessories ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.accessories ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.accessories ? "color-active mt-2" : "mt-2 color-disabled"}`} >Accessories</p>
-                            </div>
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, newsandevents: !interests.newsandevents}))}> 
-                                <div className={interests.newsandevents ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.newsandevents ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.newsandevents ? "color-active mt-2" : "mt-2 color-disabled"}`} >News and<br/> events</p>
-                            </div>
-                            <div className="pointer" onClick={() => setInterests(prevState => ({...prevState, vaporizers: !interests.vaporizers}))}> 
-                                <div className={interests.vaporizers ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
-                                    <img alt="s" src={`/assets/${interests.vaporizers ? "star" : "star-disabled"}.png`} className={"interese-star"} />
-                                </div>
-                                <p className={`${interests.vaporizers ? "color-active mt-2" : "mt-2 color-disabled"}`} >Vaporizers</p>
-                            </div>
+                            {allInterests.map((item, index) => {
+                                return(
+                                    <div key={index} className="pointer" onClick={() => {item.phn ? handleInterests(item, "remove_customer_interest") : handleInterests(item, "add_customer_interest")}}>  
+                                        <div className={item.phn ? "circle-active animate__animated animate__pulse" : "circle-disabled"}>
+                                            <img alt="s" src={`/assets/${item.phn ? "star" : "star-disabled"}.png`} className={"interese-star"} />
+                                        </div>
+                                        <p style={{width: 65}} className={`${item.phn  ? "color-active mt-2" : "color-disabled mt-2"}`}>{item.interest_name}</p>
+                                    </div>
+                                )
+                            })}  
                          </Row> 
+                         : null}
                     </div>
                 </div>
             </div>

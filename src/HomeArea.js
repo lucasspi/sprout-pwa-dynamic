@@ -7,7 +7,7 @@ const server = getApi('url');
 function HomeArea() {
     const [business, setBusiness] = useState("")
     const [token, setToken] = useState("")
-    const [points, setPoints] = useState("100")
+    const [points, setPoints] = useState("...")
     // REDUX
     const dispatch = useDispatch();
     
@@ -49,17 +49,18 @@ function HomeArea() {
         };
 
         fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => {
                 if (result.status === "success") {
                     localStorage.setItem('token', result.token);
+                    setToken(result.token)
                     dispatch({type: "STORAGE_TOKEN", token: result.token})
                     loyalty_points(result.token)
                 }
             })
             .catch(error => console.log('error', error));
     }
-
+// dca5ywt73f991u4tmdda
     async function loyalty_points(token){
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Basic Og==");
@@ -75,12 +76,11 @@ function HomeArea() {
         };
 
         fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
-            .then(response => response.text())
+            .then(response => response.json())
             .then(result => {
                 if (result.status === "success") {
-                    
+                    setPoints(result.loyalty_points[0].total_points)
                 }
-                setPoints(result.loyalty_points.total)
             })
             .catch(error => console.log('error', error));
     }
@@ -102,7 +102,7 @@ function HomeArea() {
                             <div className="row flex-column justify-content-center align-items-center" style={{height: 200, width: 200, backgroundColor: business? Template[business].color : "white", borderRadius: 150}}>
                                 <p style={{fontSize: 50, fontWeight: "700", margin: 0, paddingTop: 20, color: "white"}}>{points}</p>
                                 <p style={{fontSize: 20, fontWeight: "200", margin: 0, paddingTop: 20, color: "white"}}>Points</p>
-                                <p style={{fontSize: 10, fontWeight: "200", margin: 0, paddingTop: 20, color: "white"}}>{token}</p>
+                                {/* <p style={{fontSize: 10, fontWeight: "200", margin: 0, paddingTop: 20, color: "white"}}>{token}</p> */}
                             </div>
                         </div>
 
