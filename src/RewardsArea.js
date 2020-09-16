@@ -3,6 +3,7 @@ import { Row } from "reactstrap";
 import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
 import { useDispatch, useSelector } from 'react-redux';
+import numeral from 'numeral';
 
 function RewardsArea() {
 
@@ -34,7 +35,7 @@ function RewardsArea() {
             body: raw,
             redirect: 'follow'
         };
-
+        //gatetestb.textripple.com
         fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
             .then(response => response.json())
             .then(result => {
@@ -42,6 +43,42 @@ function RewardsArea() {
                 setAllBusiness(result.business_rewards)
             })
             .catch(error => console.log('error', error));
+    }
+
+    function render_rewards(rewards) {
+        let rewards_grouped = rewards.reduce((objectsByKeyValue, obj) => {
+            const value = obj["reward_total"];
+            objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+            return objectsByKeyValue;
+        }, {});
+        let keys = Object.keys(rewards_grouped);
+        rewards_grouped = Object.values(rewards_grouped);
+        return rewards_grouped.map((group, index) => {
+            return (
+                <Colxx md="12" key={'row-' + index}  className="mb-4" >
+                    <p className="text-left" 
+                    style={{margin: 2, fontSize: 15}}
+                    >{numeral(keys[index]).format('0,0.[00]')} points rewards</p>
+                    <div id="myWorkContent">
+                        <RewardsRow key={index} rewards={group} />
+                    </div>
+                </Colxx>
+
+            );
+        })
+    }
+
+    const RewardsRow = ({rewards}) => {
+        return rewards.map((item, index) => {
+            return (
+                <div key={'reward-' + index} className="ib-child mr-1">
+                    <div className="box-img ">
+                        <img alt="" className="box-img-inside" src={item.reward_image}/>
+                    </div>
+                    <p className="p-title">{item.reward_description}</p>
+                </div>
+            );
+        })
     }
     
     return (
@@ -57,25 +94,7 @@ function RewardsArea() {
                         </div>
                         <p>{allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].business_name ? allBusiness[businessIndex].business_name +  " - " + allBusiness[businessIndex].location_name : "" }</p>
                         <Row>
-                            
-                            <Colxx md="12"  className="mb-4" >
-                                    <p className="text-left" 
-                                    style={{margin: 2, fontSize: 15}}
-                                    >100.0000 points rewards</p>
-
-                                        {/* {item && item.rewards && item.rewards.map((item2, index2) => {return( */}
-                                    <div id="myWorkContent">
-                            {allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].rewards.map((item, index) => {
-                                return(
-                                            <div key={index} className="ib-child mr-1">
-                                                <div className="box-img ">
-                                                    <img alt="" className="box-img-inside" src={item.reward_image}/>
-                                                </div>
-                                                <p className="p-title">{item.reward_description}</p>
-                                            </div>
-                            )})}
-                                    </div>
-                            </Colxx>
+                            { allBusiness && allBusiness[businessIndex]  && render_rewards(allBusiness[businessIndex].rewards) }
 
                             <Colxx md="12" className="mb-4" >
                                 

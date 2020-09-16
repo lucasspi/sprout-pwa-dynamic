@@ -20,6 +20,7 @@ function Sprout() {
     const user = useSelector(state => state.InfosDash);
 
     function handleField(event){
+        console.log(event)
         if(event.target && event.target.name && event.target.value){
             let name = `${event.target.name}`
             let value = `${event.target.value}`
@@ -157,10 +158,10 @@ function Sprout() {
                             <Colxx xxs="12" md="6" className="mx-auto my-auto">                    
                                 <Label className="form-group has-float-label mb-4">
                                     <input
+                                        readOnly
                                         className="form-control" 
                                         value={form.phn} 
-                                        name="phn"
-                                        onChange={handleField} />
+                                        name="phn" />
                                     <span>Your phone</span>
                                 </Label>
                             </Colxx>
@@ -180,7 +181,7 @@ function Sprout() {
                                         className="form-control" 
                                         value={form.firstname} 
                                         name="firstname"
-                                        onChange={handleField} />
+                                        onChange={handleField}/>
                                     <span>First Name</span>
                                 </Label>
                             </Colxx>
