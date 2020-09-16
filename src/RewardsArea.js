@@ -91,25 +91,3 @@ function RewardsArea() {
 }
 
 export default RewardsArea;
-
-
-
-// {allBusiness.map((item, index) => {
-//                                 return(
-//                                 <Colxx md="12" key={index} className="mb-4" >
-//                                     <p className="text-left" 
-//                                     style={{margin: 2, fontSize: 15}}
-//                                     >{item.reward_points} points rewards</p>
-
-//                                     <div id="myWorkContent">
-//                                         {item.rewards.map((item2, index2) => {return(
-//                                             <div key={index2} className="ib-child">
-//                                                 <div className="box-img">
-//                                                     <img alt="" className="box-img-inside" src={item2.reward_image}/>
-//                                                 </div>
-//                                                 <p className="p-title">{item2.reward_description}</p>
-//                                             </div>
-//                                         )})}
-//                                     </div>
-//                                 </Colxx>
-//                             )})}
