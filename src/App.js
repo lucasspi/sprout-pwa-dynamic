@@ -7,8 +7,7 @@ import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
 import Lottie from 'react-lottie';
 import animationData from './css/loading.json';
-import { Provider } from 'react-redux';
-import { configureStore } from './redux/store';
+import {  useDispatch, useSelector } from 'react-redux';
 
 function Sprout({}) {
 
@@ -21,11 +20,11 @@ function Sprout({}) {
       }
     };
     
-    const [page, setPage] = useState("profile");
+    const [page, setPage] = useState("home");
     const [modal, setModal] = useState(false);
-    const [business, setBusiness] = useState(null);
+    const [cid, setCid] = useState(null);
     const [ready, setReady] = useState(false);
-
+    const dispatch = useDispatch();
     // Detects if device is on iOS 
     const isIos = () => {
         const userAgent = window.navigator.userAgent.toLowerCase();
@@ -33,6 +32,7 @@ function Sprout({}) {
     }
     // Detects if device is in standalone mode
     const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+    
     useEffect(() => {
         let closeModal = localStorage.getItem('closeModal');
         closeModal = closeModal ? closeModal : false;
@@ -46,17 +46,28 @@ function Sprout({}) {
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
 
-        if (pathname !== "/wallet/") {    
-            if(pathname){
-                pathname = pathname.split("/");
-                console.log('', );
-                setBusiness(pathname[1]);
+        if (pathname !== "/wallet/" && pathname !== "/wallet") {    
+            if(search){
+                search = search.split("=");
+                setCid(search[1]);
+                dispatch({type: "STORAGE_CID", cid: search[1]})
             }else{
-                setBusiness(null)
+                setCid(null)
             }
         }else if(search){
-            search = search.split("=");
-            setBusiness(search[1]);
+            search = search.split("&");
+            if (search[0]) {
+                const cid = search[0].split("=");
+                setCid(cid[1]);
+                dispatch({type: "STORAGE_CID", cid: cid[1]})
+                localStorage.setItem('cid', cid[1]);
+                
+            }
+            if(search[1]){
+                const phone = search[1].split("=");
+                dispatch({type: "STORAGE_PHONE", phone: phone[1]})
+                localStorage.setItem('phone', phone[1]);
+            }
             setReady(true);
         }
     }
@@ -67,7 +78,7 @@ function Sprout({}) {
     }
 
     // Checks if should display install popup notification:
-    if (ready) {
+    if (ready && cid) {
         return (
             <div>
                 {page === "home" && <HomeArea className=""/>}
@@ -95,20 +106,20 @@ function Sprout({}) {
                     
                     <Row className="justify-content-between align-items-center px-2 py-2">
                         <div onClick={() => {setPage("home");}} className=" d-flex flex-column justify-content-center align-items-center">
-                            <i className="icones-bar iconsminds-home" style={{color: page === "home" && business ? Template[business].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "home" && business ? Template[business].color : "#616161"}}>Home</p>
+                            <i className="icones-bar iconsminds-home" style={{color: page === "home" && cid ? Template[cid].color : "#616161"}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "home" && cid ? Template[cid].color : "#616161"}}>Home</p>
                         </div>
                         <div onClick={() => {setPage("rewards");}} className="d-flex flex-column justify-content-center align-items-center">
-                            <i className="icones-bar iconsminds-gift-box" style={{color: page === "rewards" &&  business ? Template[business].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "rewards" && business ? Template[business].color : "#616161"}}>Rewards</p>
+                            <i className="icones-bar iconsminds-gift-box" style={{color: page === "rewards" &&  cid ? Template[cid].color : "#616161"}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "rewards" && cid ? Template[cid].color : "#616161"}}>Rewards</p>
                         </div>
                         <div onClick={() => {setPage("profile");}} className="d-flex flex-column justify-content-center align-items-center">
-                            <i className="icones-bar iconsminds-user" style={{color: page === "profile" && business ? Template[business].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "profile" && business ? Template[business].color : "#616161"}}>Profile</p>
+                            <i className="icones-bar iconsminds-user" style={{color: page === "profile" && cid ? Template[cid].color : "#616161"}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "profile" && cid ? Template[cid].color : "#616161"}}>Profile</p>
                         </div>
                         <div onClick={() => null} className="d-flex flex-column justify-content-center align-items-center ">
-                            <i className="cart-shopping-icon iconsminds-shopping-cart" style={{color: page === "cart" && business ? Template[business].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "cart" &&  business ? Template[business].color : "#616161"}}>Shop</p>
+                            <i className="cart-shopping-icon iconsminds-shopping-cart" style={{color: page === "cart" && cid ? Template[cid].color : "#616161"}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "cart" &&  cid ? Template[cid].color : "#616161"}}>Shop</p>
                         </div>
                     </Row>
                 </div>

@@ -2,31 +2,46 @@ import React, { useEffect, useState }from "react";
 import { Row } from "reactstrap";
 import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
+import { useDispatch, useSelector } from 'react-redux';
 
 function RewardsArea() {
 
-    const [business, setBusiness] = useState(null);
+    const [allBusiness, setAllBusiness] = useState([])
+
+    const businessIndex = useSelector(state => state.InfosDash.businessIndex);
+    const cid = useSelector(state => state.InfosDash.cid);
+    const token = useSelector(state => state.InfosDash.token);
+    const phone = useSelector(state => state.InfosDash.phone);
 
     useEffect(()=>{
-        logo();
+        load()
     }, [])
 
-    function logo() {
-        let pathname = window.location && window.location.pathname;
-        let search = window.location && window.location.search;
+    function load() {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic Og==");
+        myHeaders.append("Content-Type", "text/plain");
+        var raw = `{
+            \"cid\": \"${cid}\",
+            \"token\": \"${token}\",
+            \"phn\": \"${phone}\",
+            \"action\": \"rewards\"
+        }`;
 
-        if (pathname !== "/wallet/") {    
-            if(pathname){
-                pathname = pathname.split("/");
-                console.log('', );
-                setBusiness(pathname[1]);
-            }else{
-                setBusiness(null)
-            }
-        }else if(search){
-            search = search.split("=");
-            setBusiness(search[1]);
-        }
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log('result', result);
+                setAllBusiness(result.business_rewards)
+            })
+            .catch(error => console.log('error', error));
     }
     
     return (
@@ -34,134 +49,38 @@ function RewardsArea() {
             <div className="bg-white pb-5">
                 <div className="container ">
                     <div className="py-5 text-center mx-auto">
-                        <img className="d-block mx-auto mb-4 animate__animated animate__pulse " src={business ?  Template[business].logoExtended : ""} alt="" height="72"/>
+                        <img className="d-block mx-auto mb-4 animate__animated animate__pulse " src={cid ?  Template[cid].logoExtended : ""} alt="" height="72"/>
                         <h2 className="display-4 color-df pt-3">Rewards Area</h2>
                         <p className="lead color-df pb-4" style={{fontWeight: "200"}}>Here is the rewards area. Let's start!</p>
                         <div className="row mx-auto justify-content-center">
                             <div style={{height: 1, width: "100%", backgroundColor: "#dadada", marginBottom: 25 }}></div>
                         </div>
+                        <p>{allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].business_name ? allBusiness[businessIndex].business_name +  " - " + allBusiness[businessIndex].location_name : "" }</p>
                         <Row>
-                            <Colxx md="12" className="mb-4" >
-                                <p className="text-left" style={{margin: 2, fontSize: 15}}>100 points rewards</p>
-                                <div id="myWorkContent">
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
+                            
+                            <Colxx md="12"  className="mb-4" >
+                                    <p className="text-left" 
+                                    style={{margin: 2, fontSize: 15}}
+                                    >100.0000 points rewards</p>
+
+                                        {/* {item && item.rewards && item.rewards.map((item2, index2) => {return( */}
+                                    <div id="myWorkContent">
+                            {allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].rewards.map((item, index) => {
+                                return(
+                                            <div key={index} className="ib-child mr-1">
+                                                <div className="box-img ">
+                                                    <img alt="" className="box-img-inside" src={item.reward_image}/>
+                                                </div>
+                                                <p className="p-title">{item.reward_description}</p>
+                                            </div>
+                            )})}
                                     </div>
-                                    
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                </div>
                             </Colxx>
+
                             <Colxx md="12" className="mb-4" >
-                                <p className="text-left" style={{margin: 2, fontSize: 15}}>200 points rewards</p>
-                                <div id="myWorkContent">
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                </div>
+                                
                             </Colxx>
-                            <Colxx md="12" className="mb-4" >
-                                <p className="text-left" style={{margin: 2, fontSize: 15}}>500 points rewards</p>
-                                <div id="myWorkContent">
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                </div>
-                            </Colxx>
-                            <Colxx md="12" className="mb-4" >
-                                <p className="text-left" style={{margin: 2, fontSize: 15}}>1000 points rewards</p>
-                                <div id="myWorkContent">
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                    <div className="mr-3 ib-child">
-                                        <div className="box-placeholders"/>
-                                        <div className="label-placeholders"/>
-                                        <div className="label-2-placeholders"/>
-                                    </div>
-                                </div>
-                            </Colxx>
+                            
                         </Row>
 
                     </div>
@@ -172,3 +91,25 @@ function RewardsArea() {
 }
 
 export default RewardsArea;
+
+
+
+// {allBusiness.map((item, index) => {
+//                                 return(
+//                                 <Colxx md="12" key={index} className="mb-4" >
+//                                     <p className="text-left" 
+//                                     style={{margin: 2, fontSize: 15}}
+//                                     >{item.reward_points} points rewards</p>
+
+//                                     <div id="myWorkContent">
+//                                         {item.rewards.map((item2, index2) => {return(
+//                                             <div key={index2} className="ib-child">
+//                                                 <div className="box-img">
+//                                                     <img alt="" className="box-img-inside" src={item2.reward_image}/>
+//                                                 </div>
+//                                                 <p className="p-title">{item2.reward_description}</p>
+//                                             </div>
+//                                         )})}
+//                                     </div>
+//                                 </Colxx>
+//                             )})}

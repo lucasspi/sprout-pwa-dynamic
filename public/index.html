@@ -32,23 +32,23 @@
 
         let manifest = {
 
-          sprout:{
-              "short_name": "Sprout App",
-              "name": "Sprout App",
-              "icons": [
-                  {
-                      "src": "/assets/logo.png",
-                      "type": "image/png",
-                      "sizes": "1024x1024",
-                      "purpose": "any maskable"
-                  }
-              ],
-              "start_url": "/wallet?cid=sprout",
-              "display": "standalone",
-              "theme_color": "#000000",
-              "background_color": "#ffffff"
-          },
-          dccolorweb: {
+            "miaaaa0001":{
+                "short_name": "Sprout App",
+                "name": "Sprout App",
+                "icons": [
+                    {
+                        "src": "/assets/miaaaa0001.png",
+                        "type": "image/png",
+                        "sizes": "1024x1024",
+                        "purpose": "any maskable"
+                    }
+                ],
+                "start_url": "/wallet/?cid=miaaaa0001",
+                "display": "standalone",
+                "theme_color": "#000000",
+                "background_color": "#ffffff"
+            },
+            "dccolorweb": {
                 "short_name": "DCCOLOR",
                 "name": "DCCOLOR App",
                 "icons": [
@@ -64,7 +64,7 @@
                 "theme_color": "#000000",
                 "background_color": "#ffffff"
             },
-          spirandeli: {
+            "spirandeli": {
                 "short_name": "Spirandeli",
                 "name": "Spirandeli App",
                 "icons": [
@@ -84,11 +84,12 @@
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
 
-        if (pathname !== "/wallet/") {    
+        if (pathname !== "/wallet/" && pathname !== "/wallet") {    
             console.log('Window', window);
-            if(pathname){
+            search = search.split("=");
+            if(search){
                 pathname = pathname.split("/");
-                // window.location.href = `${window.location.origin}/wallet?cid=${pathname[1]}`
+                window.location.href = `${window.location.origin}/wallet/?cid=${search[1]}`
             }
         }else if(search){
           if(search){
