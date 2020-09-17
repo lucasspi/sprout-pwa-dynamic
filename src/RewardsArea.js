@@ -3,6 +3,9 @@ import { Row } from "reactstrap";
 import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
 import { useDispatch, useSelector } from 'react-redux';
+import numeral from 'numeral';
+import { getApi } from './environment/environment'
+const server = getApi('url');
 
 function RewardsArea() {
 
@@ -13,6 +16,7 @@ function RewardsArea() {
     const cid = useSelector(state => state.InfosDash.cid);
     const token = useSelector(state => state.InfosDash.token);
     const phone = useSelector(state => state.InfosDash.phone);
+    const setup = useSelector(state => state.InfosDash.walletSetup);
 
     useEffect(()=>{
         load()
@@ -35,8 +39,8 @@ function RewardsArea() {
             body: raw,
             redirect: 'follow'
         };
-
-        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+        //gatetestb.textripple.com
+        fetch(server, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log('result', result);
@@ -53,13 +57,53 @@ function RewardsArea() {
             })
             .catch(error => console.log('error', error));
     }
+
+    function logo() {
+        return setup.image || Template[cid].logoExtended;
+    }
+
+    function render_rewards(rewards) {
+        let rewards_grouped = rewards.reduce((objectsByKeyValue, obj) => {
+            const value = obj["reward_total"];
+            objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+            return objectsByKeyValue;
+        }, {});
+        let keys = Object.keys(rewards_grouped);
+        rewards_grouped = Object.values(rewards_grouped);
+        return rewards_grouped.map((group, index) => {
+            return (
+                <Colxx md="12" key={'row-' + index}  className="mb-4" >
+                    <p className="text-left" 
+                    style={{margin: 2, fontSize: 15}}
+                    >{numeral(keys[index]).format('0,0.[00]')} points rewards</p>
+                    <div id="myWorkContent">
+                        <RewardsRow key={index} rewards={group} />
+                    </div>
+                </Colxx>
+
+            );
+        })
+    }
+
+    const RewardsRow = ({rewards}) => {
+        return rewards.map((item, index) => {
+            return (
+                <div key={'reward-' + index} className="ib-child mr-1">
+                    <div className="box-img ">
+                        <img alt="" className="box-img-inside" src={item.reward_image}/>
+                    </div>
+                    <p className="p-title">{item.reward_description}</p>
+                </div>
+            );
+        })
+    }
     
     return (
         <div className="bg-grey pb-5 animate__animated animate__fadeIn">
             <div className="bg-white pb-5">
                 <div className="container ">
                     <div className="py-5 text-center mx-auto">
-                        <img className="d-block mx-auto mb-4 animate__animated animate__pulse " src={cid ?  Template[cid].logoExtended : ""} alt="" height="72"/>
+                        <img className="d-block mx-auto mb-4 animate__animated animate__pulse " src={logo()} alt="" height="72"/>
                         <h2 className="display-4 color-df pt-3">Rewards Area</h2>
                         <p className="lead color-df pb-4" style={{fontWeight: "200"}}>Here is the rewards area. Let's start!</p>
                         <div className="row mx-auto justify-content-center">
@@ -67,25 +111,8 @@ function RewardsArea() {
                         </div>
                         <p>{allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].business_name ? allBusiness[businessIndex].business_name +  " - " + allBusiness[businessIndex].location_name : "" }</p>
                         <Row>
-                            {rows && rows.length && rows.map((row, indexRow) =>{return(
-                                <Colxx key={indexRow} md="12" className="mb-4 px-0" >
-                                    <p className="text-left pl-3 mb-1">{row} points</p>
-                                    <div id="myWorkContent">
-                                        {allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].rewards && allBusiness[businessIndex].rewards.map((item, index) => {
-                                            if(item.reward_total === row ){
-                                                return(
-                                                    <div key={index} className="ib-child ">
-                                                        <img alt="" className="box-img-inside" src={item.reward_image}/>
-                                                        <p className="descripton-reward">{item.reward_description}</p>
-                                                    </div>
-                                                );
-                                            }else{
-                                                return(<div key={index}/>)
-                                            }
-                                        })}
-                                    </div>
-                                </Colxx>
-                            )})}
+                            { allBusiness && allBusiness[businessIndex]  && render_rewards(allBusiness[businessIndex].rewards) }
+
                         </Row>
 
                     </div>

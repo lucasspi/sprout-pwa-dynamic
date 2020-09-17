@@ -5,7 +5,8 @@ import {
     STORAGE_USER,
     STORAGE_INTERESTS,
     STORAGE_POINTS,
-    STORAGE_BUSINESS_INDEX
+    STORAGE_BUSINESS_INDEX,
+    STORAGE_WALLET_SETUP
 } from '../actionsTypes.js';
 
 export const storageToken = value => ({
@@ -41,5 +42,10 @@ export const storagePoints = value => ({
 export const storageBusinessIndex = value => ({
   type: STORAGE_BUSINESS_INDEX,
   businessIndex: value
+});
+
+export const storageWalletSetup = value => ({
+  type: STORAGE_WALLET_SETUP,
+  walletSetup: value
 });
 

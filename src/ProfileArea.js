@@ -4,13 +4,15 @@ import { Colxx } from "./CustomBootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import InputMask from "react-input-mask";
 import Template from './css/template.json'
+import { getApi } from './environment/environment'
+const server = getApi('url');
 
 function Sprout() {
     
     const [loading, setLoading] = useState(true)
-
-    
+    // const [setup, setSetup] = useState([])    
     const [allInterests, setAllInterests] = useState([])
+
     const [form, setForm] = useState(useSelector(state => state.InfosDash.user))
     // REDUX
     const dispatch = useDispatch();
@@ -18,11 +20,23 @@ function Sprout() {
     const token = useSelector(state => state.InfosDash.token);
     const phone = useSelector(state => state.InfosDash.phone);
     const user = useSelector(state => state.InfosDash);
+    const setup = useSelector(state => state.InfosDash.walletSetup);
+
+    function handleField(event){
+        console.log(event)
+        if(event.target && event.target.name && event.target.value){
+            let name = `${event.target.name}`
+            let value = `${event.target.value}`
+            setForm(prevState => ({ ...prevState, [name]: value }));
+        }
+    }
 
     useEffect(() => {
+        // appSetup()
         if (user && user.name) { //CASO JÁ TENHA CARREGADO
         }else{
             userFields();
+
         }
     }, [])
 
@@ -41,7 +55,7 @@ function Sprout() {
             redirect: 'follow'
         };
 
-        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+        fetch(server, requestOptions)
             .then(response => response.json())
             .then(result => {
                 setForm({
@@ -132,12 +146,12 @@ function Sprout() {
             .catch(error => console.log('error', error));
     }
 
-    function handleField(event){
-        console.log('event', event.target);
-        let name = `${event.target.name}`
-        let value = `${event.target.value}`
-        setForm(prevState => ({ ...prevState, [name]: value }));
-        
+    function logo() {
+        return setup.image || Template[cid].logoExtended;
+    }
+
+    function color () {
+        return setup.color || Template[cid].color;
     }
 
     return (
@@ -146,7 +160,7 @@ function Sprout() {
                 <div className="container ">
                     <div className="py-5 text-center mx-auto">
                     
-                        <img alt={cid} className="d-block mx-auto mb-4 animate__animated animate__pulse" src={cid ?  Template[cid].logoExtended : ""} height="72"/>
+                        <img alt={cid} className="d-block mx-auto mb-4 animate__animated animate__pulse" src={logo()} height="72"/>
                         <h2 className="display-4 color-df pt-3">Profile Area</h2>
                         <p className="lead color-df pb-4" style={{fontWeight: "200"}}>Some subtitles goes here to explain more.</p>
                         <p className="text-left color-df" style={{fontWeight: "600", fontSize: 16}}>Fill the fields below</p>
@@ -160,8 +174,7 @@ function Sprout() {
                                         disabled
                                         className="form-control" 
                                         value={form.phn} 
-                                        name="phn"
-                                        onChange={handleField} />
+                                        name="phn" />
                                     <span>Your phone</span>
                                 </Label>
                             </Colxx>
@@ -181,7 +194,7 @@ function Sprout() {
                                         className="form-control" 
                                         value={form.firstname} 
                                         name="firstname"
-                                        onChange={handleField} />
+                                        onChange={handleField}/>
                                     <span>First Name</span>
                                 </Label>
                             </Colxx>
@@ -269,7 +282,7 @@ function Sprout() {
                             </Colxx>
                             
                             <Button
-                                style={{backgroundColor: cid ? Template[cid].color : "white", borderColor: cid ? Template[cid].color : "white"}}
+                                style={{backgroundColor: color(), borderColor: cid ? Template[cid].color : "white"}}
                                 className={`btn-shadow btn-multiple-state ${loading ? "show-spinner" : ""}`} 
 
                                 
