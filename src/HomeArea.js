@@ -108,7 +108,7 @@ function HomeArea() {
                                         name="businessIndex"
                                         onChange={handleField}>
                                         {points.map((item, index) => {return(
-                                            <option value={index}>{item.location_name}</option>
+                                            <option key={index} value={index}>{item.location_name}</option>
                                         )})}
                                         </select>
                                     <span>Select the store</span>

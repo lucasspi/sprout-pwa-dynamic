@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function RewardsArea() {
 
+    const [rows, setRows] = useState([])
     const [allBusiness, setAllBusiness] = useState([])
 
     const businessIndex = useSelector(state => state.InfosDash.businessIndex);
@@ -39,6 +40,15 @@ function RewardsArea() {
             .then(response => response.json())
             .then(result => {
                 console.log('result', result);
+                if(result.business_rewards[0].rewards){
+                    var uniqueNames = [];
+                    for(let i = 0; i < result.business_rewards[0].rewards.length; i++){    
+                        if(uniqueNames.indexOf(result.business_rewards[0].rewards[i].reward_points) === -1){
+                            uniqueNames.push(result.business_rewards[0].rewards[i].reward_points);        
+                        }        
+                    }
+                    setRows(uniqueNames);
+                }
                 setAllBusiness(result.business_rewards)
             })
             .catch(error => console.log('error', error));
@@ -57,18 +67,25 @@ function RewardsArea() {
                         </div>
                         <p>{allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].business_name ? allBusiness[businessIndex].business_name +  " - " + allBusiness[businessIndex].location_name : "" }</p>
                         <Row>
-                            <Colxx md="12"  className="mb-4" >
-                                <div id="myWorkContent">
-                                    {allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].rewards && allBusiness[businessIndex].rewards.map((item, index) => {return(
-                                        <div key={index} className="ib-child mr-1">
-                                            <div className="box-img ">
-                                                <img alt="" className="box-img-inside" src={item.reward_image}/>
-                                            </div>
-                                            <p className="p-title">{item.reward_description}</p>
-                                        </div>
-                                    )})}
-                                </div>
-                            </Colxx>
+                            {rows && rows.length && rows.map((row, indexRow) =>{return(
+                                <Colxx key={indexRow} md="12" className="mb-4 px-0" >
+                                    <p className="text-left pl-3 mb-1">{row} points</p>
+                                    <div id="myWorkContent">
+                                        {allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].rewards && allBusiness[businessIndex].rewards.map((item, index) => {
+                                            if(item.reward_total === row ){
+                                                return(
+                                                    <div key={index} className="ib-child ">
+                                                        <img alt="" className="box-img-inside" src={item.reward_image}/>
+                                                        <p className="descripton-reward">{item.reward_description}</p>
+                                                    </div>
+                                                );
+                                            }else{
+                                                return(<div key={index}/>)
+                                            }
+                                        })}
+                                    </div>
+                                </Colxx>
+                            )})}
                         </Row>
 
                     </div>
