@@ -19,14 +19,6 @@ function Sprout() {
     const phone = useSelector(state => state.InfosDash.phone);
     const user = useSelector(state => state.InfosDash);
 
-    function handleField(event){
-        if(event.target && event.target.name && event.target.value){
-            let name = `${event.target.name}`
-            let value = `${event.target.value}`
-            setForm(prevState => ({ ...prevState, [name]: value }));
-        }
-    }
-
     useEffect(() => {
         if (user && user.name) { //CASO JÁ TENHA CARREGADO
         }else{
@@ -140,6 +132,14 @@ function Sprout() {
             .catch(error => console.log('error', error));
     }
 
+    function handleField(event){
+        console.log('event', event.target);
+        let name = `${event.target.name}`
+        let value = `${event.target.value}`
+        setForm(prevState => ({ ...prevState, [name]: value }));
+        
+    }
+
     return (
         <div className="bg-grey pb-5 animate__animated animate__fadeIn">
             <div className="bg-white pb-5">
@@ -157,6 +157,7 @@ function Sprout() {
                             <Colxx xxs="12" md="6" className="mx-auto my-auto">                    
                                 <Label className="form-group has-float-label mb-4">
                                     <input
+                                        disabled
                                         className="form-control" 
                                         value={form.phn} 
                                         name="phn"

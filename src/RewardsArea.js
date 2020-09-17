@@ -57,30 +57,18 @@ function RewardsArea() {
                         </div>
                         <p>{allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].business_name ? allBusiness[businessIndex].business_name +  " - " + allBusiness[businessIndex].location_name : "" }</p>
                         <Row>
-                            
                             <Colxx md="12"  className="mb-4" >
-                                    <p className="text-left" 
-                                    style={{margin: 2, fontSize: 15}}
-                                    >100.0000 points rewards</p>
-
-                                        {/* {item && item.rewards && item.rewards.map((item2, index2) => {return( */}
-                                    <div id="myWorkContent">
-                            {allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].rewards.map((item, index) => {
-                                return(
-                                            <div key={index} className="ib-child mr-1">
-                                                <div className="box-img ">
-                                                    <img alt="" className="box-img-inside" src={item.reward_image}/>
-                                                </div>
-                                                <p className="p-title">{item.reward_description}</p>
+                                <div id="myWorkContent">
+                                    {allBusiness && allBusiness[businessIndex] && allBusiness[businessIndex].rewards && allBusiness[businessIndex].rewards.map((item, index) => {return(
+                                        <div key={index} className="ib-child mr-1">
+                                            <div className="box-img ">
+                                                <img alt="" className="box-img-inside" src={item.reward_image}/>
                                             </div>
-                            )})}
-                                    </div>
+                                            <p className="p-title">{item.reward_description}</p>
+                                        </div>
+                                    )})}
+                                </div>
                             </Colxx>
-
-                            <Colxx md="12" className="mb-4" >
-                                
-                            </Colxx>
-                            
                         </Row>
 
                     </div>

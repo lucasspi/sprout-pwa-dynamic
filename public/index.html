@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="/fonts/iconsmind-s/css/iconsminds.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
     <meta name="description" content="Loyalty Wallet Application" />
-    <link id="mylogo1" rel="apple-touch-icon" href="./assets/wallet.png" />
+    <link id="mylogo1" rel="apple-touch-icon" href="/assets/wallet.png" />
     <link id="mylogo2" rel="apple-touch-icon" href="touch-icon-iphone.png">
     <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./assets/wallet.png">
     <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./assets/wallet.png">
     <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./assets/wallet.png">
     
-    <link rel="icon" type="image/png" id="mylogo" href="./assets/wallet.png" />
+    <link rel="icon" type="image/png" id="mylogo" href="/assets/wallet.png" />
     <link rel="manifest" id="manifestjson" href="./manifest.json"/>
     <title id="title">Loyalty Wallet</title>
   </head>
@@ -43,39 +43,7 @@
                         "purpose": "any maskable"
                     }
                 ],
-                "start_url": "/wallet/?cid=miaaaa0001",
-                "display": "standalone",
-                "theme_color": "#000000",
-                "background_color": "#ffffff"
-            },
-            "dccolorweb": {
-                "short_name": "DCCOLOR",
-                "name": "DCCOLOR App",
-                "icons": [
-                    {
-                        "src": "/assets/dccolorweb.png",
-                        "type": "image/png",
-                        "sizes": "1024x1024",
-                        "purpose": "any maskable"
-                    }
-                ],
-                "start_url": "/wallet?cid=dccolorweb",
-                "display": "standalone",
-                "theme_color": "#000000",
-                "background_color": "#ffffff"
-            },
-            "spirandeli": {
-                "short_name": "Spirandeli",
-                "name": "Spirandeli App",
-                "icons": [
-                    {
-                        "src": "/assets/spirandeli.png",
-                        "type": "image/png",
-                        "sizes": "1024x1024",
-                        "purpose": "any maskable"
-                    }
-                ],
-                "start_url": "/wallet?cid=spirandeli",
+                "start_url": "/wallet/?cid=miaaaa0001&phn=5083309917",
                 "display": "standalone",
                 "theme_color": "#000000",
                 "background_color": "#ffffff"
@@ -93,19 +61,24 @@
             }
         }else if(search){
           if(search){
-            search = search.split("=");
-            console.log('App ', search[1]);
-            document.getElementById("mylogo").href = `./assets/${search[1]}.png`; 
-            document.getElementById("mylogo1").href = `./assets/${search[1]}.png`; 
-            document.getElementById("mylogo2").href = `./assets/${search[1]}.png`; 
-            document.getElementById("mylogo3").href = `./assets/${search[1]}.png`; 
-            document.getElementById("mylogo4").href = `./assets/${search[1]}.png`; 
-            document.getElementById("mylogo5").href = `./assets/${search[1]}.png`; 
-            
-            document.getElementById("title").innerHTML = `${manifest[search[1]].name}`; 
-            setTimeout(function(){ 
-              document.getElementById("manifestjson").href = manifest[search[1]]; 
-             }, 5000);
+            search = search.split("&");
+            if (search[0]) {
+                const cid = search[0].split("=");
+                document.getElementById("mylogo").href = `./assets/${cid[1]}.png`; 
+                document.getElementById("mylogo1").href = `./assets/${cid[1]}.png`; 
+                document.getElementById("mylogo2").href = `./assets/${cid[1]}.png`; 
+                document.getElementById("mylogo3").href = `./assets/${cid[1]}.png`; 
+                document.getElementById("mylogo4").href = `./assets/${cid[1]}.png`; 
+                document.getElementById("mylogo5").href = `./assets/${cid[1]}.png`; 
+                
+                document.getElementById("title").innerHTML = `${manifest[cid[1]].name}`; 
+                setTimeout(function(){ 
+                    document.getElementById("manifestjson").href = manifest[cid[1]]; 
+                }, 5000);
+            }
+            if(search[1]){
+                const phone = search[1].split("=");
+            } 
           }
         }
     </script>

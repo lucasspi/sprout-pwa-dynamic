@@ -7,9 +7,9 @@ import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
 import Lottie from 'react-lottie';
 import animationData from './css/loading.json';
-import {  useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-function Sprout({}) {
+function Sprout() {
 
     const defaultOptions = {
       loop: true,
@@ -117,10 +117,10 @@ function Sprout({}) {
                             <i className="icones-bar iconsminds-user" style={{color: page === "profile" && cid ? Template[cid].color : "#616161"}}></i>
                             <p style={{fontSize: 13, paddingBottom: 5, color: page === "profile" && cid ? Template[cid].color : "#616161"}}>Profile</p>
                         </div>
-                        <div onClick={() => null} className="d-flex flex-column justify-content-center align-items-center ">
+                        {/* <div onClick={() => null} className="d-flex flex-column justify-content-center align-items-center ">
                             <i className="cart-shopping-icon iconsminds-shopping-cart" style={{color: page === "cart" && cid ? Template[cid].color : "#616161"}}></i>
                             <p style={{fontSize: 13, paddingBottom: 5, color: page === "cart" &&  cid ? Template[cid].color : "#616161"}}>Shop</p>
-                        </div>
+                        </div> */}
                     </Row>
                 </div>
             </div>
