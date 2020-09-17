@@ -7,6 +7,7 @@ import {
     STORAGE_INTERESTS,
     STORAGE_POINTS,
     STORAGE_BUSINESS_INDEX,
+    STORAGE_WALLET_SETUP
 } from '../actionsTypes.js';
 
 const initialState = {
@@ -16,7 +17,8 @@ const initialState = {
     user: {},
     interests: "",
     points: "",
-    businessIndex: 0
+    businessIndex: 0,
+    walletSetup: {}
 };
 
 export const dashboard = (state = initialState, action) => {
@@ -56,6 +58,11 @@ export const dashboard = (state = initialState, action) => {
         ...state, 
         businessIndex: action.businessIndex
       };
+    case STORAGE_WALLET_SETUP:
+        return {
+            ...state,
+            walletSetup: action.walletSetup
+        };
     default:
       return state;
   }

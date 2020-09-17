@@ -4,6 +4,8 @@ import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
 import { useDispatch, useSelector } from 'react-redux';
 import numeral from 'numeral';
+import { getApi } from './environment/environment'
+const server = getApi('url');
 
 function RewardsArea() {
 
@@ -13,6 +15,7 @@ function RewardsArea() {
     const cid = useSelector(state => state.InfosDash.cid);
     const token = useSelector(state => state.InfosDash.token);
     const phone = useSelector(state => state.InfosDash.phone);
+    const setup = useSelector(state => state.InfosDash.walletSetup);
 
     useEffect(()=>{
         load()
@@ -36,13 +39,17 @@ function RewardsArea() {
             redirect: 'follow'
         };
         //gatetestb.textripple.com
-        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+        fetch(server, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log('result', result);
                 setAllBusiness(result.business_rewards)
             })
             .catch(error => console.log('error', error));
+    }
+
+    function logo() {
+        return setup.image || Template[cid].logoExtended;
     }
 
     function render_rewards(rewards) {
@@ -86,7 +93,7 @@ function RewardsArea() {
             <div className="bg-white pb-5">
                 <div className="container ">
                     <div className="py-5 text-center mx-auto">
-                        <img className="d-block mx-auto mb-4 animate__animated animate__pulse " src={cid ?  Template[cid].logoExtended : ""} alt="" height="72"/>
+                        <img className="d-block mx-auto mb-4 animate__animated animate__pulse " src={logo()} alt="" height="72"/>
                         <h2 className="display-4 color-df pt-3">Rewards Area</h2>
                         <p className="lead color-df pb-4" style={{fontWeight: "200"}}>Here is the rewards area. Let's start!</p>
                         <div className="row mx-auto justify-content-center">

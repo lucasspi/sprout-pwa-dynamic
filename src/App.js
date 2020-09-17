@@ -8,6 +8,8 @@ import Template from './css/template.json'
 import Lottie from 'react-lottie';
 import animationData from './css/loading.json';
 import {  useDispatch, useSelector } from 'react-redux';
+import { getApi } from './environment/environment'
+const server = getApi('url');
 
 function Sprout({}) {
 
@@ -19,12 +21,14 @@ function Sprout({}) {
         preserveAspectRatio: "xMidYMid slice"
       }
     };
-    
+
     const [page, setPage] = useState("home");
     const [modal, setModal] = useState(false);
     const [cid, setCid] = useState(null);
+    const [token, setToken] = useState(null);
     const [ready, setReady] = useState(false);
     const dispatch = useDispatch();
+    const setup = useSelector(state => state.InfosDash.walletSetup);
     // Detects if device is on iOS 
     const isIos = () => {
         const userAgent = window.navigator.userAgent.toLowerCase();
@@ -42,6 +46,36 @@ function Sprout({}) {
         }
     }, [])
 
+    async function userToken(cid, phn){
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic Og==");
+        myHeaders.append("Content-Type", "text/plain");
+
+        var raw = `{
+            \"cid\": \"${cid}\", 
+            \"phn\": \"guest\",
+            \"action\": \"get_token\"
+        }`;
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(server, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "success") {
+                    localStorage.setItem('token', result.token);
+                    setToken(result.token)
+                    appSetup(result.token, cid)
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
     function logo() {
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
@@ -50,6 +84,7 @@ function Sprout({}) {
             if(search){
                 search = search.split("=");
                 setCid(search[1]);
+                userToken(search[1])
                 dispatch({type: "STORAGE_CID", cid: search[1]})
             }else{
                 setCid(null)
@@ -59,6 +94,7 @@ function Sprout({}) {
             if (search[0]) {
                 const cid = search[0].split("=");
                 setCid(cid[1]);
+                userToken(cid[1])
                 dispatch({type: "STORAGE_CID", cid: cid[1]})
                 localStorage.setItem('cid', cid[1]);
                 
@@ -70,6 +106,46 @@ function Sprout({}) {
             }
             setReady(true);
         }
+    }
+
+    function appSetup (token, cid) {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Basic Og==");
+        myHeaders.append("Content-Type", "text/plain");
+        var raw = `{
+            \"cid\": \"${cid}\",
+            \"token\": \"${token}\",
+            \"phn\": \"guest\",
+            \"action\": \"wallet_setup\"
+        }`;
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        //gatetestb.textripple.com
+        fetch(server, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                // setSetup(result.setup)
+                dispatch({type: "STORAGE_WALLET_SETUP", walletSetup: result.setup})
+            })
+        .catch(error => console.log('error', error));
+    }
+
+    function navigationColor (current) {
+        if(page === current) {  
+            if(setup.color) {
+                return setup.color
+            }
+            if(Template[cid].color)
+                return Template[cid].color
+
+            return "#03a9f4"
+        }
+        return "#616161"
     }
 
     function closeModal(){
@@ -106,20 +182,20 @@ function Sprout({}) {
                     
                     <Row className="justify-content-between align-items-center px-2 py-2">
                         <div onClick={() => {setPage("home");}} className=" d-flex flex-column justify-content-center align-items-center">
-                            <i className="icones-bar iconsminds-home" style={{color: page === "home" && cid ? Template[cid].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "home" && cid ? Template[cid].color : "#616161"}}>Home</p>
+                            <i className="icones-bar iconsminds-home" style={{color: navigationColor("home")}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: navigationColor("home")}}>Home</p>
                         </div>
                         <div onClick={() => {setPage("rewards");}} className="d-flex flex-column justify-content-center align-items-center">
-                            <i className="icones-bar iconsminds-gift-box" style={{color: page === "rewards" &&  cid ? Template[cid].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "rewards" && cid ? Template[cid].color : "#616161"}}>Rewards</p>
+                            <i className="icones-bar iconsminds-gift-box" style={{color: navigationColor("rewards")}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: navigationColor("rewards")}}>Rewards</p>
                         </div>
                         <div onClick={() => {setPage("profile");}} className="d-flex flex-column justify-content-center align-items-center">
-                            <i className="icones-bar iconsminds-user" style={{color: page === "profile" && cid ? Template[cid].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "profile" && cid ? Template[cid].color : "#616161"}}>Profile</p>
+                            <i className="icones-bar iconsminds-user" style={{color: navigationColor("profile")}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: navigationColor("profile")}}>Profile</p>
                         </div>
-                        <div onClick={() => null} className="d-flex flex-column justify-content-center align-items-center ">
-                            <i className="cart-shopping-icon iconsminds-shopping-cart" style={{color: page === "cart" && cid ? Template[cid].color : "#616161"}}></i>
-                            <p style={{fontSize: 13, paddingBottom: 5, color: page === "cart" &&  cid ? Template[cid].color : "#616161"}}>Shop</p>
+                        <div onClick={()=> window.open(setup.shopping_cart, "_blank")} className={"flex-column justify-content-center align-items-center " + (setup.shopping_cart && setup.shopping_cart != "" ? 'd-flex' : 'd-none')} >
+                            <i className="cart-shopping-icon iconsminds-shopping-cart" style={{color: navigationColor("cart")}}></i>
+                            <p style={{fontSize: 13, paddingBottom: 5, color: navigationColor("cart")}}>Shop</p>
                         </div>
                     </Row>
                 </div>
