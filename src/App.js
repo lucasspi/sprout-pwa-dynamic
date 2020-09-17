@@ -11,7 +11,7 @@ import {  useDispatch, useSelector } from 'react-redux';
 import { getApi } from './environment/environment'
 const server = getApi('url');
 
-function Sprout({}) {
+function Sprout() {
 
     const defaultOptions = {
       loop: true,
@@ -140,7 +140,7 @@ function Sprout({}) {
             if(setup.color) {
                 return setup.color
             }
-            if(Template[cid].color)
+            if(Template[cid])
                 return Template[cid].color
 
             return "#03a9f4"

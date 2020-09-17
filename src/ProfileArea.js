@@ -171,7 +171,7 @@ function Sprout() {
                             <Colxx xxs="12" md="6" className="mx-auto my-auto">                    
                                 <Label className="form-group has-float-label mb-4">
                                     <input
-                                        readOnly
+                                        disabled
                                         className="form-control" 
                                         value={form.phn} 
                                         name="phn" />

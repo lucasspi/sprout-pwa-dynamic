@@ -103,10 +103,6 @@ function RewardsArea() {
                         <Row>
                             { allBusiness && allBusiness[businessIndex]  && render_rewards(allBusiness[businessIndex].rewards) }
 
-                            <Colxx md="12" className="mb-4" >
-                                
-                            </Colxx>
-                            
                         </Row>
 
                     </div>
