@@ -4,17 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <link rel="stylesheet" href="/fonts/iconsmind-s/css/iconsminds.css">
+    <link rel="stylesheet" href="./fonts/iconsmind-s/css/iconsminds.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
     <meta name="description" content="Loyalty Wallet Application" />
-    <link id="mylogo1" rel="apple-touch-icon" href="./assets/wallet.png" />
-    <link id="mylogo2" rel="apple-touch-icon" href="./assets/wallet.png">
-    <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./assets/wallet.png">
-    <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./assets/wallet.png">
-    <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./assets/wallet.png">
+    <link id="mylogo1" rel="apple-touch-icon" href="./wallet.png" />
+    <link id="mylogo2" rel="apple-touch-icon" href="touch-icon-iphone.png">
+    <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./wallet.png">
+    <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./wallet.png">
+    <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./wallet.png">
     
-    <link rel="icon" type="image/png" id="mylogo" href="./assets/wallet.png" />
-    <link rel="manifest" href="./manifest.json"/>
+    <link rel="icon" type="image/png" id="mylogo" href="./wallet.png" />
+    <link rel="manifest" id="manifestjson" href="./manifest.json"/>
     <title id="title">Loyalty Wallet</title>
   </head>
   <body>
@@ -46,7 +46,7 @@
                             "name": "Loyalty Wallet",
                             "icons": [
                                 {
-                                    "src": "/assets/wallet.png",
+                                    "src": "./wallet.png",
                                     "type": "image/png",
                                     "sizes": "1024x1024",
                                     "purpose": "any maskable"
@@ -60,7 +60,7 @@
                         document.getElementById("manifestjson").href = manifestsVar; 
                         document.getElementById("manifestjson").value = manifestsVar; 
                     } 
-                }, 6000);
+                }, 10000);
             }
           }
         }else if(search){
@@ -78,7 +78,7 @@
                             "name": "Loyalty Wallet",
                             "icons": [
                                 {
-                                    "src": "/assets/wallet.png",
+                                    "src": "/assets./wallet.png",
                                     "type": "image/png",
                                     "sizes": "1024x1024",
                                     "purpose": "any maskable"
@@ -92,7 +92,7 @@
                         document.getElementById("manifestjson").href = manifestsVar; 
                         document.getElementById("manifestjson").value = manifestsVar; 
                     } 
-                }, 6000);
+                }, 10000);
             }
           }
         }

@@ -3,13 +3,13 @@
     "name": "Loyalty Wallet",
     "icons": [
         {
-            "src": "/assets/wallet.png",
+            "src": "./wallet.png",
             "type": "image/png",
             "sizes": "1024x1024",
             "purpose": "any maskable"
         }
     ],
-    "start_url": "/wallet/",
+    "start_url": ".",
     "display": "standalone",
     "theme_color": "#000000",
     "background_color": "#ffffff"
