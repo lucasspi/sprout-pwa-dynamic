@@ -9,7 +9,7 @@ import Lottie from 'react-lottie';
 import animationData from './css/loading.json';
 import {  useDispatch, useSelector } from 'react-redux';
 import { getApi } from './environment/environment'
-const server = getApi('url');
+const server = getApi();
 
 function Sprout() {
 

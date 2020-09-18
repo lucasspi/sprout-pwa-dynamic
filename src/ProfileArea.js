@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InputMask from "react-input-mask";
 import Template from './css/template.json'
 import { getApi } from './environment/environment'
-const server = getApi('url');
+const server = getApi();
 
 function Sprout() {
     

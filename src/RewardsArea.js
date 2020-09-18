@@ -5,7 +5,7 @@ import Template from './css/template.json'
 import { useDispatch, useSelector } from 'react-redux';
 import numeral from 'numeral';
 import { getApi } from './environment/environment'
-const server = getApi('url');
+const server = getApi();
 
 function RewardsArea() {
 

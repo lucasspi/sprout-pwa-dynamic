@@ -12,5 +12,6 @@
     "start_url": "/wallet/?cid=miaaaa0001",
     "display": "standalone",
     "theme_color": "#000000",
-    "background_color": "#ffffff"
+    "background_color": "#ffffff",    
+    "environment": "production"
 }

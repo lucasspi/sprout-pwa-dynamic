@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getApi } from './environment/environment'
 import { Row, Label, Button } from "reactstrap";
 import { Colxx } from "./CustomBootstrap";
-const server = getApi('url');
+const server = getApi();
 
 function HomeArea() {
     const [token, setToken] = useState(useSelector(state => state.InfosDash.token))

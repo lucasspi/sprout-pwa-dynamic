@@ -1,7 +1,7 @@
 const envs = {
-    url: "http://gatetestb.textripple.com/wallet/", //PROD
+    url: "https://gateway.textripple.com/wallet/", //PROD
 }
 
-module.exports.getApi = (env) => {
-    return envs[env];
+module.exports.getApi = () => {
+    return envs['url'];
 }
