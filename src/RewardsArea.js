@@ -4,11 +4,11 @@ import { Colxx } from "./CustomBootstrap";
 import Template from './css/template.json'
 import { useDispatch, useSelector } from 'react-redux';
 import numeral from 'numeral';
-import { getApi } from './environment/environment'
-const server = getApi();
+import { server } from './environment/environment'
 
 function RewardsArea() {
 
+    const [rows, setRows] = useState([])
     const [allBusiness, setAllBusiness] = useState([])
 
     const businessIndex = useSelector(state => state.InfosDash.businessIndex);
@@ -43,6 +43,15 @@ function RewardsArea() {
             .then(response => response.json())
             .then(result => {
                 console.log('result', result);
+                if(result.business_rewards[0].rewards){
+                    var uniqueNames = [];
+                    for(let i = 0; i < result.business_rewards[0].rewards.length; i++){    
+                        if(uniqueNames.indexOf(result.business_rewards[0].rewards[i].reward_points) === -1){
+                            uniqueNames.push(result.business_rewards[0].rewards[i].reward_points);        
+                        }        
+                    }
+                    setRows(uniqueNames);
+                }
                 setAllBusiness(result.business_rewards)
             })
             .catch(error => console.log('error', error));

@@ -3,15 +3,14 @@
     "name": "Loyalty Wallet",
     "icons": [
         {
-            "src": "/assets/miaaaa0001.png",
+            "src": "./wallet.png",
             "type": "image/png",
             "sizes": "1024x1024",
             "purpose": "any maskable"
         }
     ],
-    "start_url": "/wallet/?cid=miaaaa0001",
+    "start_url": ".",
     "display": "standalone",
     "theme_color": "#000000",
-    "background_color": "#ffffff",    
-    "environment": "production"
+    "background_color": "#ffffff"
 }

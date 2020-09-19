@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from "react";
 import Template from './css/template.json'
 import { useDispatch, useSelector } from 'react-redux';
-import { getApi } from './environment/environment'
+import { server } from './environment/environment'
 import { Row, Label, Button } from "reactstrap";
 import { Colxx } from "./CustomBootstrap";
-const server = getApi();
 
 function HomeArea() {
     const [token, setToken] = useState(useSelector(state => state.InfosDash.token))

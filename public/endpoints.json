@@ -1,0 +1,7 @@
+{
+    "environment": "production",
+    "endpoints": {
+        "production": "https://gateway.textripple.com/wallet/",
+        "development": "http://gatetestb.textripple.com/wallet/",
+    }
+}

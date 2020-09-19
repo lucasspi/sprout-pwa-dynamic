@@ -4,16 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <link rel="stylesheet" href="/fonts/iconsmind-s/css/iconsminds.css">
+    <link rel="stylesheet" href="./fonts/iconsmind-s/css/iconsminds.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
     <meta name="description" content="Loyalty Wallet Application" />
-    <link id="mylogo1" rel="apple-touch-icon" href="/assets/wallet.png" />
+    <link id="mylogo1" rel="apple-touch-icon" href="./wallet.png" />
     <link id="mylogo2" rel="apple-touch-icon" href="touch-icon-iphone.png">
-    <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./assets/wallet.png">
-    <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./assets/wallet.png">
-    <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./assets/wallet.png">
+    <link id="mylogo3" rel="apple-touch-icon" sizes="152x152" href="./wallet.png">
+    <link id="mylogo4" rel="apple-touch-icon" sizes="180x180" href="./wallet.png">
+    <link id="mylogo5" rel="apple-touch-icon" sizes="167x167" href="./wallet.png">
     
-    <link rel="icon" type="image/png" id="mylogo" href="/assets/wallet.png" />
+    <link rel="icon" type="image/png" id="mylogo" href="./wallet.png" />
     <link rel="manifest" id="manifestjson" href="./manifest.json"/>
     <title id="title">Loyalty Wallet</title>
   </head>
@@ -28,57 +28,72 @@
                     .catch((err) => console.log('Failure: ', err));
             })
         }
-
-
-        let manifest = {
-
-            "miaaaa0001":{
-                "short_name": "Sprout App",
-                "name": "Sprout App",
-                "icons": [
-                    {
-                        "src": "/assets/miaaaa0001.png",
-                        "type": "image/png",
-                        "sizes": "1024x1024",
-                        "purpose": "any maskable"
-                    }
-                ],
-                "start_url": "/wallet/?cid=miaaaa0001&phn=5083309917",
-                "display": "standalone",
-                "theme_color": "#000000",
-                "background_color": "#ffffff"
-            }
-        }
         let pathname = window.location && window.location.pathname;
         let search = window.location && window.location.search;
 
         if (pathname !== "/wallet/" && pathname !== "/wallet") {    
-            console.log('Window', window);
-            search = search.split("=");
             if(search){
-                pathname = pathname.split("/");
-                window.location.href = `${window.location.origin}/wallet/?cid=${search[1]}`
+            search = search.split("&");
+            if (search[0]) {
+                const cid = search[0].split("=");
+                
+                setTimeout(function(){ 
+                    if(search[1]){
+                        const phone = search[1].split("=");
+                        console.log('phone', phone[1]);
+                        let manifestsVar = {
+                            "short_name": "Loyalty Wallet",
+                            "name": "Loyalty Wallet",
+                            "icons": [
+                                {
+                                    "src": "./wallet.png",
+                                    "type": "image/png",
+                                    "sizes": "1024x1024",
+                                    "purpose": "any maskable"
+                                }
+                            ],
+                            "start_url": `/wallet/?cid=${cid[1]}&phn=${phone[1]}`,
+                            "display": "standalone",
+                            "theme_color": "#000000",
+                            "background_color": "#ffffff"
+                        }
+                        document.getElementById("manifestjson").href = manifestsVar; 
+                        document.getElementById("manifestjson").value = manifestsVar; 
+                    } 
+                }, 10000);
             }
+          }
         }else if(search){
           if(search){
             search = search.split("&");
             if (search[0]) {
                 const cid = search[0].split("=");
-                document.getElementById("mylogo").href = `./assets/${cid[1]}.png`; 
-                document.getElementById("mylogo1").href = `./assets/${cid[1]}.png`; 
-                document.getElementById("mylogo2").href = `./assets/${cid[1]}.png`; 
-                document.getElementById("mylogo3").href = `./assets/${cid[1]}.png`; 
-                document.getElementById("mylogo4").href = `./assets/${cid[1]}.png`; 
-                document.getElementById("mylogo5").href = `./assets/${cid[1]}.png`; 
                 
-                document.getElementById("title").innerHTML = `${manifest[cid[1]].name}`; 
                 setTimeout(function(){ 
-                    document.getElementById("manifestjson").href = manifest[cid[1]]; 
-                }, 5000);
+                    if(search[1]){
+                        const phone = search[1].split("=");
+                        console.log('phone', phone[1]);
+                        let manifestsVar = {
+                            "short_name": "Loyalty Wallet",
+                            "name": "Loyalty Wallet",
+                            "icons": [
+                                {
+                                    "src": "/assets./wallet.png",
+                                    "type": "image/png",
+                                    "sizes": "1024x1024",
+                                    "purpose": "any maskable"
+                                }
+                            ],
+                            "start_url": `/wallet/?cid=${cid[1]}&phn=${phone[1]}`,
+                            "display": "standalone",
+                            "theme_color": "#000000",
+                            "background_color": "#ffffff"
+                        }
+                        document.getElementById("manifestjson").href = manifestsVar; 
+                        document.getElementById("manifestjson").value = manifestsVar; 
+                    } 
+                }, 10000);
             }
-            if(search[1]){
-                const phone = search[1].split("=");
-            } 
           }
         }
     </script>

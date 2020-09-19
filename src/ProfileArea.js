@@ -4,8 +4,7 @@ import { Colxx } from "./CustomBootstrap";
 import { useDispatch, useSelector } from 'react-redux';
 import InputMask from "react-input-mask";
 import Template from './css/template.json'
-import { getApi } from './environment/environment'
-const server = getApi();
+import { server } from './environment/environment'
 
 function Sprout() {
     
@@ -114,7 +113,7 @@ function Sprout() {
             body: raw,
             redirect: 'follow'
         };
-        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+        fetch(server, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log('result', result);
@@ -140,7 +139,7 @@ function Sprout() {
             redirect: 'follow'
         };
 
-        fetch("http://gatetestb.textripple.com/wallet/", requestOptions)
+        fetch(server, requestOptions)
             .then(response => response.text())
             .then(result => {userFields()})
             .catch(error => console.log('error', error));
